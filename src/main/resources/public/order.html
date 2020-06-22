@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+
+<!-- Bootstrap CSS -->
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+
+
+<!-- <script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
+
+<link href="webjars/bootstrap/4.4.1-1/css/bootstrap.css" rel="stylesheet">
+
+
+
+
+<title>Cake and celebrations</title>
+</head>
+<body>
+	<header>
+		<h1 class="display-3 text-center my-4">Cake And Celebrations</h1>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3">
+					<div class="dropdown">
+						<button onclick="getAllOrderDetails()"
+							class="btn btn-primary btn-block dropdown-toggle" type="button"
+							data-toggle="dropdown">Order Details</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" id="getSummary" href="#">Order
+								Summary</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="dropdown">
+						<button class="btn btn-success btn-block dropdown-toggle"
+							onclick="getAllCustomers()" data-toggle="dropdown">
+							Customer</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" data-toggle="modal"
+								data-target="#exampleModalCenter" href="#">Add customer</a>
+						</div>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="#">Add customer</a>
+						</div>
+						<!-- Modal -->
+						<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+							role="dialog" aria-labelledby="exampleModalCenterTitle"
+							aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLongTitle">Add
+											New Customer</h5>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div id="customerFormModel" class="modal-body">
+										<form class="was-validated">
+											<div class="form-group">
+												<label for="uname">Customer name</label> <input type="text"
+													class="form-control" id="customerName"
+													placeholder="Enter customer name" name="uname" required>
+
+											</div>
+											<div class="form-group">
+												<label for="email">Email</label> <input type="text"
+													class="form-control" id="email" placeholder="Enter email"
+													name="email" required>
+
+											</div>
+											<div class="form-group">
+												<label for="mobile">Customer mobile </label> <input
+													type="text" class="form-control" id="mobile"
+													placeholder="Enter customer mobile no." name="mobile"
+													required>
+											</div>
+										</form>
+
+									</div>
+									<div class="modal-footer">
+										<button type="submit" class="btn btn-primary"
+											onclick="saveCustomer()">Save</button>
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Close</button>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="dropdown">
+						<button class="btn btn-warning btn-block dropdown-toggle"
+							type="button" data-toggle="dropdown">Products</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="4_2_grid_system.html">View
+								products</a> <a class="dropdown-item" href="4_2_grid_system.html">Add
+								product</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+	</header>
+	<div class="container">
+		<div id="content"></div>
+
+
+
+
+	</div>
+
+	<script src="webjars/jquery/3.5.0/dist/jquery.js"></script>
+	<script src="https://getbootstrap.com/docs/4.1/assets/js/vendor/popper.min.js"></script>
+	<!-- <script src="webjars/popper.js/1.14.3/popper.js"></script> -->
+	<script src="webjars/bootstrap/4.4.1-1/js/bootstrap.js"></script>
+
+
+
+	<script type="text/javascript">
+    var apiResponse ='';
+	const endTblTag = '</table>';
+    
+    $(document).ready(function () {
+    	
+    	getAllOrderDetails(apiResponse);
+    	
+    	$("#getSummary").click(function(){
+    		var tableRow = '';
+    		console.log(apiResponse);
+    		var map = new Map();
+    		var resQuantity ='';
+    		
+    		$.each(apiResponse, function(index, item) {
+    	    	var summary = {};
+    	    	summary = jQuery.parseJSON( item.summary);
+    	    	console.log(summary);
+    	    	
+    	    	$.each(summary,function(i,result) {
+    	    		console.log(' Result ' +result.name);
+    	    		resQuantity = Number(result.quantity);
+    	    		if(map.has(result.name)) {
+    	    			var newQuantity = Number(map.get(result.name)) + resQuantity;
+    	    			map.set(result.name,newQuantity);    	    			
+    	    		}else {
+    	    			map.set(result.name,result.quantity);    	    			
+    	    		}   	    		    	    		
+    	    		    	    		
+    	    	});
+    	    	
+    	    });    		
+    		console.log(map);
+    		const tableHead = '<table class="table"><thead class="thead-dark"><tr><th>No</th><th>Product name</th><th>Quantity</th></tr></thead>';
+    		var index = 0;
+    		map.forEach((key,value) => {
+    			tableRow += '<tr><th scope="row">' + index + '</th><td>' + value + '</td><td>' + key + '</td></tr>';
+    			index++;
+    			
+    		});
+    		console.log(tableRow);
+        	$('#content').html(tableHead+tableRow+endTblTag);	
+    		  
+    	});
+    	
+    	
+    	
+    	
+    });
+    
+    //show summary
+    function getAllOrderDetails() {
+    	
+    	$.getJSON('http://localhost:8080/api/v1/orders',function(data) {		
+    		var trHTML = '';
+    		var count; 
+    		apiResponse = data;    		
+    	    $.each(data, function(index, item) {
+    	    	var summary = {};
+    	    	summary = jQuery.parseJSON( item.summary);
+    	    	console.log(summary);
+    	    	var map = new Map();
+    	    	$.each(summary,function(i,result) {
+    	    		console.log(' result ' +result.quantity);
+    	    		var resQuantity = Number(result.quantity);
+    	    		if(map.has(result.name)) {
+    	    			var newQuantity = Number(map.get(result.name)) + resQuantity;
+    	    			map.set(result.name,newQuantity);    	    			
+    	    		}else {
+    	    			map.set(result.name,result.quantity);    	    			
+    	    		}    	    		    	    		
+    	    		trHTML += '<tr><th scope="row">' + index + '</th><td>' + item.name + '</td><td>' + result.name + '</td><td>'+result.quantity +'</td></tr>';    	    		
+    	    	});
+    	    	
+    	    	map.forEach(function(key,value) {
+    	    		console.log(`map.get('${key}')`+'==='+` ${value}`);
+    	    		
+    	    	});
+    	    	console.log(map);
+    	    });
+    	    const tableHead = '<table  id="order_details" class="table"><thead class="thead-dark"><tr><th>No</th><th>Customer name</th><th>Product</th><th>Quantity</th></tr></thead>';
+    	    
+    	    $('#content').html(tableHead+trHTML+endTblTag);	
+    	    //$('#content').append(tableHead+trHTML);
+    	});
+    }
+    
+    
+    function getAllCustomers() { 
+    	var trHTML = '';
+    	
+    	$.getJSON('http://localhost:8080/api/v1/customers',function(data) {    		
+    	    $.each(data, function(index, item) {    	    	
+    	    	trHTML += '<tr><th scope="row">' + index + '</th><td>' + item.name + '</td><td>' + item.mobile + '</td><td>'+item.email +'</td></tr>';
+    	    	
+    	    	
+    	    });
+    	    const tableHead = '<table class="table"><thead class="thead-dark"><tr><th>No</th><th>Customer name</th><th>Email</th><th>Mobile</th></tr></thead>';
+    	    
+    	    $('#content').html(tableHead+trHTML+endTblTag);
+    	    //$('#content').append(tableHead+trHTML);
+    	});
+    	
+    }
+    
+    function saveCustomer() {
+    	const name = $('#customerName').val();
+    	const email = $('#email').val();
+    	const mobile = $('#mobile').val();
+    	
+    	 // TODO do validations messages properly
+    	 
+    	if(name == ' '|| name.length == 0 || name == '') {
+    		alert('Space in name not allowed');
+    	}else if(email == ' '|| email.length == 0 || email == '') {
+    		alert('Space in email not allowed');
+    	}else if(mobile == ' '|| mobile.length == 0 || mobile == '') {
+    		alert('Space in mobile not allowed');
+    	} else {
+    		var jsonObjects = { 'name':name, 'mobile':mobile,'email':email};
+        	$.ajax({
+        	          url: 'http://localhost:8080/api/v1/customers',
+        	          type: 'POST',
+        	          data: JSON.stringify(jsonObjects),
+        	          headers: {
+        	        	  'Content-Type':'application/json'
+        	          },
+        	          dataType: "json",    	          
+        	          success: function(result) {
+        	        	  $('#customerFormModel').modal('toggle');
+        	        	  name = '';
+        	        	  email = '';
+        	        	  mobile = '';
+        	        	  alert('successfully added');        	        	  
+        	          },
+        	          error: function(XMLHttpRequest, textStatus, errorThrown) {        	        	  
+        	        	     alert("Service unavailable");
+        	        	  }
+        	});    		
+    	}  	
+    }
+    
+    
+    </script>
+</body>
+</html>

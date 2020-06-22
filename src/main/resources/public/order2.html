@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/themes/redmond/jquery-ui.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.5/css/ui.jqgrid.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.5/jquery.jqgrid.min.js"></script>
+
+  
+    <script>
+    
+    $(function () {
+    	 $("#grid").jqGrid({
+             colModel: [
+                 { name: "shopName", width:400}
+             ],
+             data: [
+                 { shopName: "Poona Central"},
+                 { shopName: "Bibwewadi outlet" },
+                 { shopName: "Aundh outlet"},
+                 { shopName: "Magarpatta outlet"},
+                 { shopName: "Pune Station"}
+             ]
+         });
+    	 
+    	 $("#grid").css("font-size","20px");
+    });
+  
+    </script>
+
+    <title>Cake And Celebrations</title>
+  </head>
+  <body>
+    <h1>Order details</h1>
+    <table id="grid"></table>
+  </body>
+</html>
